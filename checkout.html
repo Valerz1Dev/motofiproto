@@ -6,94 +6,72 @@
   <title>Checkout – MOTOFI</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900 font-sans">
+<body class="bg-gray-100 font-sans">
 
-  <!-- Header -->
-  <header class="bg-black text-white p-4">
-    <div class="container mx-auto flex items-center justify-between">
-      <h1 class="text-2xl font-bold"><a href="index.html">MOTOFI</a></h1>
-      <nav>
-        <a href="index.html#shop" class="px-3 hover:underline">Kauppa</a>
-        <a href="index.html#about" class="px-3 hover:underline">Tietoa</a>
-        <a href="index.html#contact" class="px-3 hover:underline">Yhteystiedot</a>
-      </nav>
-    </div>
-  </header>
+  <div class="max-w-3xl mx-auto p-6 bg-white mt-10 rounded shadow">
+    <h1 class="text-2xl font-bold mb-6">Tilaustiedot</h1>
 
-  <!-- Checkout Section -->
-  <main class="container mx-auto py-12 px-4">
-    <h2 class="text-3xl font-bold mb-6 text-center">Tarkista ja viimeistele tilaus</h2>
-
-    <div class="grid md:grid-cols-2 gap-8">
-
-      <!-- Order Summary -->
-      <div class="bg-white shadow rounded p-6">
-        <h3 class="text-xl font-semibold mb-4">Tilauksesi</h3>
-        <ul id="cart-list" class="mb-4 list-disc list-inside text-sm text-gray-700"></ul>
-        <p class="text-sm mb-1">Toimitus (Heinolasta Suomeen): <strong>5,90€</strong></p>
-        <p class="text-lg font-semibold">Yhteensä: <span id="total-price">0.00€</span></p>
+    <form id="checkout-form" action="https://formspree.io/f/mjkrapdw" method="POST" class="space-y-4">
+      <div>
+        <label class="block font-medium">Nimi</label>
+        <input type="text" name="name" required class="w-full border px-3 py-2 rounded" />
       </div>
 
-      <!-- Checkout Form -->
-      <form action="https://formspree.io/f/yourFormID" method="POST" class="bg-white shadow rounded p-6">
-        <h2 class="text-xl font-semibold mb-4">Yhteystiedot</h2>
+      <div>
+        <label class="block font-medium">Sähköposti</label>
+        <input type="email" name="email" required class="w-full border px-3 py-2 rounded" />
+      </div>
 
-        <input type="hidden" name="_subject" value="Uusi tilaus MOTOFI-verkkokaupasta">
-        <input type="hidden" name="order" id="order-data">
+      <div>
+        <label class="block font-medium">Toimitusosoite</label>
+        <textarea name="address" required class="w-full border px-3 py-2 rounded" rows="3"></textarea>
+      </div>
 
-        <label class="block mb-2 font-medium">Nimi</label>
-        <input name="name" required class="w-full border px-3 py-2 rounded mb-4" />
+      <div>
+        <label class="block font-medium mb-1">Tilauksen sisältö</label>
+        <div id="order-summary" class="bg-gray-50 border rounded p-3 text-sm"></div>
+        <input type="hidden" name="orderDetails" id="orderDetails">
+      </div>
 
-        <label class="block mb-2 font-medium">Sähköposti</label>
-        <input name="email" type="email" required class="w-full border px-3 py-2 rounded mb-4" />
+      <div class="font-semibold">
+        Toimituskulut: <span id="shipping">4,90€</span><br />
+        Yhteensä: <span id="total-price" class="text-lg text-green-600 font-bold">0,00€</span>
+      </div>
 
-        <label class="block mb-2 font-medium">Toimitusosoite</label>
-        <textarea name="address" required rows="3" class="w-full border px-3 py-2 rounded mb-4"></textarea>
+      <div class="text-sm text-gray-600">
+        📦 Tilaus lähetetään Heinolasta. Maksu suoritetaan etukäteen tilisiirtona. Saat sähköpostin, jossa on maksutiedot ja tilausvahvistus.
+      </div>
 
-        <p class="text-sm text-gray-700 mb-4">Maksa tilaus summan mukaan MobilePaylla tai pankkisiirrolla. Tilaus käsitellään maksun jälkeen. Maksutiedot saat sähköpostiin.</p>
+      <button type="submit" class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800">
+        Lähetä tilaus
+      </button>
+    </form>
+  </div>
 
-        <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded font-semibold">
-          Tilaa nyt
-        </button>
-      </form>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-black text-white py-6 mt-16">
-    <div class="container mx-auto text-center text-sm">
-      © 2025 MOTOFI. Kaikki oikeudet pidätetään.
-    </div>
-  </footer>
-
-  <!-- Cart Logic -->
   <script>
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const list = document.getElementById('cart-list');
-    let subtotal = 0;
+    const orderSummary = document.getElementById('order-summary');
+    const orderDetailsInput = document.getElementById('orderDetails');
+    const totalPriceSpan = document.getElementById('total-price');
 
-    if (cart.length === 0) {
-      list.innerHTML = "<li>Ostoskori on tyhjä.</li>";
-    } else {
-      cart.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = `${item.name} × ${item.qty} – ${(item.price * item.qty).toFixed(2)}€`;
-        list.appendChild(li);
-        subtotal += item.price * item.qty;
-      });
-    }
+    let summaryHTML = '';
+    let total = 0;
 
-    const shipping = 5.90;
-    const total = subtotal + shipping;
-    document.getElementById('total-price').textContent = total.toFixed(2) + "€";
-
-    // Inject order summary into hidden field
-    const form = document.querySelector('form');
-    form.addEventListener('submit', () => {
-      const summary = cart.map(i => `${i.name} × ${i.qty} = ${(i.price * i.qty).toFixed(2)}€`).join('\n');
-      document.getElementById('order-data').value = `${summary}\nToimitus: ${shipping.toFixed(2)}€\nYhteensä: ${total.toFixed(2)}€`;
-      localStorage.removeItem('cart');
+    cart.forEach(item => {
+      const itemTotal = item.price * item.qty;
+      summaryHTML += `<div>🛠️ ${item.name} × ${item.qty} = ${itemTotal.toFixed(2)}€</div>`;
+      total += itemTotal;
     });
+
+    const shipping = 4.90;
+    total += shipping;
+
+    summaryHTML += `<div class="mt-2 font-bold">+ Toimitus: 4,90€</div>`;
+    summaryHTML += `<div class="font-bold text-green-600">Yhteensä: ${total.toFixed(2)}€</div>`;
+
+    orderSummary.innerHTML = summaryHTML;
+    orderDetailsInput.value = summaryHTML.replace(/<[^>]+>/g, ''); // plain text version
+    totalPriceSpan.textContent = `${total.toFixed(2)}€`;
   </script>
 
 </body>
