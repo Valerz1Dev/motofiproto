@@ -3,99 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kassa – MOTOFI</title>
+  <title>Tilaus – MOTOFI</title>
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-[url('https://i.imgur.com/Q2ZgCbO.jpeg')] bg-cover bg-center bg-fixed bg-no-repeat">
-
-  <!-- Overlay background -->
-  <div class="backdrop-blur-sm bg-white/80 min-h-screen flex flex-col justify-between">
-
-    <!-- Header -->
-    <header class="bg-black text-white p-4">
-      <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-2xl font-bold">MOTOFI</h1>
-        <a href="ostoskori.html" class="relative">
-          Kauppa
-          <span class="absolute -top-2 -right-4 bg-red-600 text-white text-xs rounded-full px-2">🛒</span>
-        </a>
-      </div>
-    </header>
-
-    <!-- Checkout Form Section -->
-    <main class="flex flex-col items-center justify-center px-4 py-10 grow">
-      <div class="bg-white rounded-lg shadow-md max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 overflow-hidden">
-        <!-- Customer Form -->
-        <div class="p-8">
-          <h2 class="text-2xl font-bold mb-6">Asiakastiedot</h2>
-          <form id="checkout-form" action="https://formspree.io/f/your-form-id" method="POST" class="space-y-4">
-            <input type="hidden" name="_next" value="kiitos.html" />
-            <input type="hidden" name="Tilaus" id="order-summary" />
-            
-            <input type="text" name="Nimi" required placeholder="Nimi" class="w-full border px-3 py-2 rounded" />
-            <input type="email" name="Sähköposti" required placeholder="Sähköposti" class="w-full border px-3 py-2 rounded" />
-            <input type="text" name="Osoite" required placeholder="Osoite" class="w-full border px-3 py-2 rounded" />
-            <input type="text" name="Postinumero" required placeholder="Postinumero" class="w-full border px-3 py-2 rounded" />
-            <input type="text" name="Postitoimipaikka" required placeholder="Postitoimipaikka" class="w-full border px-3 py-2 rounded" />
-            <input type="text" name="Puhelin" placeholder="Puhelin (valinnainen)" class="w-full border px-3 py-2 rounded" />
-
-            <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Tilaa nyt</button>
-          </form>
-        </div>
-
-        <!-- Order Summary -->
-        <div class="bg-gray-50 p-8 border-l">
-          <h2 class="text-2xl font-bold mb-6">Yhteenveto</h2>
-          <div id="summary-content" class="text-sm space-y-2"></div>
-          <div class="mt-6 font-semibold text-lg" id="grand-total"></div>
-        </div>
-      </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-black text-white text-center text-sm py-4">
-      © 2025 MOTOFI. Kaikki oikeudet pidätetään.
-    </footer>
-
-  </div>
-
   <script>
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const summary = document.getElementById('summary-content');
-    const totalEl = document.getElementById('grand-total');
-    const hiddenField = document.getElementById('order-summary');
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let summary = "";
+      let total = 0;
 
-    let subtotal = 0;
-    let summaryHTML = '';
-    let orderText = '';
+      cart.forEach(item => {
+        const line = `${item.name} × ${item.qty} – ${(item.price * item.qty).toFixed(2)}€`;
+        summary += line + "\n";
+        total += item.price * item.qty;
+      });
 
-    cart.forEach(item => {
-      const lineTotal = item.price * item.qty;
-      subtotal += lineTotal;
-      summaryHTML += `<div class="flex justify-between"><span>${item.name} × ${item.qty}</span><span>${lineTotal.toFixed(2)}€</span></div>`;
-      orderText += `${item.name} x ${item.qty} – ${lineTotal.toFixed(2)}€\n`;
-    });
+      const shipping = 6.90;
+      const tax = (total * 0.24).toFixed(2);
+      const grandTotal = (total + shipping).toFixed(2);
 
-    const shipping = 6.90;
-    const tax = subtotal * 0.24;
-    const total = subtotal + shipping;
+      document.getElementById('orderSummary').innerText = summary.trim();
+      document.getElementById('subTotal').innerText = total.toFixed(2) + '€';
+      document.getElementById('shipping').innerText = shipping.toFixed(2) + '€';
+      document.getElementById('tax').innerText = tax + '€';
+      document.getElementById('grandTotal').innerText = grandTotal + '€';
 
-    summaryHTML += `
-      <hr class="my-4" />
-      <div class="flex justify-between"><span>Välisumma:</span><span>${subtotal.toFixed(2)}€</span></div>
-      <div class="flex justify-between"><span>Toimitus:</span><span>${shipping.toFixed(2)}€</span></div>
-      <div class="flex justify-between"><span>ALV 24%:</span><span>${tax.toFixed(2)}€</span></div>
-    `;
-
-    summary.innerHTML = summaryHTML;
-    totalEl.textContent = `Yhteensä: ${total.toFixed(2)}€`;
-
-    orderText += `\nToimitus: ${shipping.toFixed(2)}€\nALV: ${tax.toFixed(2)}€\nYhteensä: ${total.toFixed(2)}€`;
-    hiddenField.value = orderText;
-
-    document.getElementById('checkout-form').addEventListener('submit', () => {
-      localStorage.removeItem('cart'); // Clear cart on submit
-    });
+      // Fill hidden field for email
+      document.getElementById('hiddenOrder').value =
+        summary + `\n\nVälisumma: ${total.toFixed(2)}€\nToimitus: ${shipping.toFixed(2)}€\nALV 24%: ${tax}€\nYhteensä: ${grandTotal}€`;
+    }
+    window.onload = loadCart;
   </script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Header -->
+  <header class="bg-black text-white py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">MOTOFI</h1>
+      <a href="ostoskori.html" class="hover:underline">Kauppa 🛒</a>
+    </div>
+  </header>
+
+  <!-- Checkout Form -->
+  <main class="container mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold text-center mb-10">Tilaustiedot</h2>
+
+    <div class="grid md:grid-cols-2 gap-10 bg-white rounded-lg shadow p-6">
+
+      <!-- Form -->
+      <form action="https://formspree.io/f/mjkrapdw" method="POST" class="space-y-4">
+        <h3 class="text-lg font-semibold mb-2">Asiakastiedot</h3>
+
+        <input type="text" name="Nimi" placeholder="Nimi" required class="w-full border px-3 py-2 rounded" />
+        <input type="email" name="Sähköposti" placeholder="Sähköposti" required class="w-full border px-3 py-2 rounded" />
+        <input type="text" name="Osoite" placeholder="Osoite" required class="w-full border px-3 py-2 rounded" />
+        <input type="text" name="Postinumero" placeholder="Postinumero" required class="w-full border px-3 py-2 rounded" />
+        <input type="text" name="Postitoimipaikka" placeholder="Postitoimipaikka" required class="w-full border px-3 py-2 rounded" />
+        <input type="text" name="Puhelin" placeholder="Puhelin (valinnainen)" class="w-full border px-3 py-2 rounded" />
+
+        <textarea id="hiddenOrder" name="Tilaus" class="hidden"></textarea>
+
+        <p class="text-sm text-gray-600 mt-4">
+          💡 Tilaus lähetetään sähköpostiisi. Maksu suoritetaan manuaalisesti tilisiirtona ennen toimitusta.
+        </p>
+
+        <button type="submit" class="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 w-full">
+          Tilaa nyt
+        </button>
+      </form>
+
+      <!-- Order Summary -->
+      <div>
+        <h3 class="text-lg font-semibold mb-2">Yhteenveto</h3>
+        <pre id="orderSummary" class="bg-gray-50 p-4 border rounded mb-4 whitespace-pre-wrap text-sm"></pre>
+
+        <div class="text-sm space-y-1">
+          <div class="flex justify-between">
+            <span>Välisumma:</span><span id="subTotal">–</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Toimitus:</span><span id="shipping">–</span>
+          </div>
+          <div class="flex justify-between">
+            <span>ALV 24%:</span><span id="tax">–</span>
+          </div>
+          <div class="border-t pt-2 flex justify-between font-semibold">
+            <span>Yhteensä:</span><span id="grandTotal">–</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-black text-white text-center text-sm py-4 mt-16">
+    © 2025 MOTOFI. Kaikki oikeudet pidätetään.
+  </footer>
+
 </body>
 </html>
