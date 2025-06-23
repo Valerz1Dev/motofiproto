@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tuunaus Osat – MOTOFI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="relative font-sans antialiased text-gray-800">
+
+  <!-- Background -->
+  <div class="absolute inset-0 bg-[url('https://i.imgur.com/Q2ZgCbO.jpeg')] bg-cover bg-center bg-fixed -z-10 opacity-60"></div>
+  <div class="absolute inset-0 backdrop-blur-sm bg-white/60 -z-10"></div>
+
+  <!-- Header -->
+  <header class="bg-black text-white p-4">
+    <div class="container mx-auto flex items-center justify-between">
+      <h1 class="text-2xl font-bold"><a href="index.html">MOTOFI</a></h1>
+      <nav>
+        <a href="index.html#shop" class="px-3 hover:underline">Kauppa</a>
+        <a href="index.html#about" class="px-3 hover:underline">Tietoa</a>
+        <a href="index.html#contact" class="px-3 hover:underline">Yhteystiedot</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Tuunaus osat section -->
+  <section class="py-16 container mx-auto">
+    <h2 class="text-3xl font-bold mb-8 text-center">Tuunaus Osat</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Product Card 1 -->
+      <div class="bg-white bg-opacity-90 p-4 rounded-lg shadow">
+        <img src="https://via.placeholder.com/300x200" alt="Sporttiputki" class="w-full mb-4 rounded"/>
+        <h3 class="text-xl font-semibold mb-2">Sporttipakoputki 70cc</h3>
+        <p class="text-sm mb-4">Lisää tehoa ja ääntä mopoon – sopii useimpiin malleihin.</p>
+        <span class="block font-bold text-lg mb-2">89,90€</span>
+        <a href="#" class="text-blue-600 hover:underline">Lisätietoa →</a>
+      </div>
+
+      <!-- Product Card 2 -->
+      <div class="bg-white bg-opacity-90 p-4 rounded-lg shadow">
+        <img src="https://via.placeholder.com/300x200" alt="Virityssarja" class="w-full mb-4 rounded"/>
+        <h3 class="text-xl font-semibold mb-2">Virityssarja 50–70cc</h3>
+        <p class="text-sm mb-4">Täydellinen setti suorituskyvyn parantamiseen.</p>
+        <span class="block font-bold text-lg mb-2">149,00€</span>
+        <a href="#" class="text-blue-600 hover:underline">Lisätietoa →</a>
+      </div>
+
+      <!-- Product Card 3 -->
+      <div class="bg-white bg-opacity-90 p-4 rounded-lg shadow">
+        <img src="https://via.placeholder.com/300x200" alt="CDI-boksi" class="w-full mb-4 rounded"/>
+        <h3 class="text-xl font-semibold mb-2">Rajoittamaton CDI-boksi</h3>
+        <p class="text-sm mb-4">Poistaa nopeusrajoittimen ja parantaa sytytystä.</p>
+        <span class="block font-bold text-lg mb-2">39,50€</span>
+        <a href="#" class="text-blue-600 hover:underline">Lisätietoa →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black text-white py-6 mt-16">
+    <div class="container mx-auto text-center text-sm">
+      © 2025 MOTOFI. Kaikki oikeudet pidätetään.
+    </div>
+  </footer>
+
+</body>
+</html>
