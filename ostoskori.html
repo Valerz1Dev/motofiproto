@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <title>Ostoskori – MOTOFI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="relative font-sans antialiased text-gray-800">
+
+  <!-- Background -->
+  <div class="absolute inset-0 bg-[url('https://i.imgur.com/Q2ZgCbO.jpeg')] bg-cover bg-center bg-fixed -z-10 opacity-60"></div>
+  <div class="absolute inset-0 backdrop-blur-sm bg-white/60 -z-10"></div>
+
+  <!-- Header -->
+  <header class="bg-black text-white p-4">
+    <div class="container mx-auto flex items-center justify-between">
+      <h1 class="text-2xl font-bold"><a href="index.html">MOTOFI</a></h1>
+      <nav>
+        <a href="index.html#shop" class="px-3 hover:underline">Kauppa</a>
+        <a href="index.html#about" class="px-3 hover:underline">Tietoa</a>
+        <a href="index.html#contact" class="px-3 hover:underline">Yhteystiedot</a>
+        <a href="ostoskori.html" class="relative px-3 hover:underline">
+          🛒 <span id="cart-count" class="absolute -top-1 -right-2 bg-red-600 text-white text-xs rounded-full px-1">0</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Cart Section -->
+  <section class="container mx-auto py-12">
+    <h2 class="text-3xl font-bold mb-8 text-center">Ostoskori</h2>
+    <div id="cart-items" class="bg-white bg-opacity-90 p-6 rounded-lg shadow max-w-3xl mx-auto">
+      <!-- Cart will be injected here -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black text-white py-6 mt-16">
+    <div class="container mx-auto text-center text-sm">
+      © 2025 MOTOFI. Kaikki oikeudet pidätetään.
+    </div>
+  </footer>
+
+  <!-- Cart Logic -->
+  <script>
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cart-count').textContent = count;
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cart-items');
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      if (cart.length === 0) {
+        container.innerHTML = "<p class='text-center'>Ostoskori on tyhjä.</p>";
+        return;
+      }
+
+      let html = '<ul class="divide-y">';
+      let total = 0;
+
+      cart.forEach((item, i) => {
+        const itemTotal = item.qty * item.price;
+        total += itemTotal;
+
+        html += `
+          <li class="flex justify-between items-center py-4">
+            <div>
+              <strong>${item.name}</strong><br/>
+              Määrä: ${item.qty} × ${item.price.toFixed(2)}€
+            </div>
+            <div class="text-right">
+              <span class="block font-bold">${itemTotal.toFixed(2)}€</span>
+              <button onclick="removeItem(${i})" class="text-red-600 hover:underline text-sm mt-1">Poista</button>
+            </div>
+          </li>
+        `;
+      });
+
+      html += `</ul><div class="text-right mt-4 font-bold text-xl">Yhteensä: ${total.toFixed(2)}€</div>`;
+      container.innerHTML = html;
+    }
+
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+      updateCartCount();
+    }
+
+    updateCartCount();
+    renderCart();
+  </script>
+</body>
+</html>
