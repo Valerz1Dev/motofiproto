@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MOTOFI – Moped Tuning Parts</title>
+  <!-- Tailwind via CDN for quick styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans antialiased text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-black text-white p-4">
+    <div class="container mx-auto flex items-center justify-between">
+      <h1 class="text-2xl font-bold">MOTOFI</h1>
+      <nav>
+        <a href="#shop" class="px-3 hover:underline">Shop</a>
+        <a href="#about" class="px-3 hover:underline">About</a>
+        <a href="#contact" class="px-3 hover:underline">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-gray-100 py-20 text-center">
+    <h2 class="text-4xl font-extrabold mb-4">Welcome to MOTOFI</h2>
+    <p class="max-w-xl mx-auto mb-8">
+      Premium moped tuning parts, straight from Finland. Turn your ride into a speed machine!
+    </p>
+    <a href="#shop" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600">
+      Shop Now
+    </a>
+  </section>
+
+  <!-- Featured Categories -->
+  <section id="shop" class="container mx-auto py-16">
+    <h3 class="text-3xl font-bold mb-8 text-center">Featured Parts</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Example Card -->
+      <div class="border rounded-lg overflow-hidden">
+        <img src="https://via.placeholder.com/300x200" alt="Exhausts" class="w-full"/>
+        <div class="p-4">
+          <h4 class="font-semibold mb-2">Exhaust Systems</h4>
+          <p class="text-sm mb-4">Boost performance & tone.</p>
+          <a href="#" class="text-blue-600 hover:underline">View Products →</a>
+        </div>
+      </div>
+      <!-- Repeat for other categories -->
+      <div class="border rounded-lg overflow-hidden">
+        <img src="https://via.placeholder.com/300x200" alt="Variators" class="w-full"/>
+        <div class="p-4">
+          <h4 class="font-semibold mb-2">Variators</h4>
+          <p class="text-sm mb-4">Optimized acceleration.</p>
+          <a href="#" class="text-blue-600 hover:underline">View Products →</a>
+        </div>
+      </div>
+      <div class="border rounded-lg overflow-hidden">
+        <img src="https://via.placeholder.com/300x200" alt="Jets & Carbs" class="w-full"/>
+        <div class="p-4">
+          <h4 class="font-semibold mb-2">Jets & Carbs</h4>
+          <p class="text-sm mb-4">Fine-tune your fuel mix.</p>
+          <a href="#" class="text-blue-600 hover:underline">View Products →</a>
+        </div>
+      </div>
+      <div class="border rounded-lg overflow-hidden">
+        <img src="https://via.placeholder.com/300x200" alt="Clutches" class="w-full"/>
+        <div class="p-4">
+          <h4 class="font-semibold mb-2">Clutches</h4>
+          <p class="text-sm mb-4">Engage power smoothly.</p>
+          <a href="#" class="text-blue-600 hover:underline">View Products →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="bg-gray-50 py-16">
+    <div class="container mx-auto max-w-2xl text-center">
+      <h3 class="text-3xl font-bold mb-4">About MOTOFI</h3>
+      <p>
+        Born in Finland, MOTOFI is dedicated to bringing you the highest-quality moped tuning parts.
+        From 2-stroke enthusiasts to urban commuters, we’ve got the gear to make your ride yours.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="container mx-auto py-16">
+    <h3 class="text-3xl font-bold mb-4 text-center">Get in Touch</h3>
+    <p class="text-center mb-6">Questions? Custom orders? Drop us a line below.</p>
+    <form action="mailto:info@motofi.fi" method="post" enctype="text/plain" class="max-w-md mx-auto">
+      <label class="block mb-2">Your Email</label>
+      <input type="email" name="email" required
+             class="w-full border px-3 py-2 rounded mb-4"/>
+      <label class="block mb-2">Message</label>
+      <textarea name="message" rows="4" required
+                class="w-full border px-3 py-2 rounded mb-4"></textarea>
+      <button type="submit"
+              class="w-full bg-black text-white py-2 rounded hover:bg-gray-800">
+        Send Message
+      </button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black text-white py-6">
+    <div class="container mx-auto text-center text-sm">
+      © 2025 MOTOFI. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>
