@@ -16,10 +16,15 @@
   <header class="bg-black text-white p-4">
     <div class="container mx-auto flex items-center justify-between">
       <h1 class="text-2xl font-bold">MOTOFI</h1>
-      <nav>
+      <nav class="flex items-center gap-2">
         <a href="#shop" class="px-3 hover:underline">Kauppa</a>
         <a href="#about" class="px-3 hover:underline">Tietoa</a>
         <a href="#contact" class="px-3 hover:underline">Yhteystiedot</a>
+        <!-- 🛒 Cart Icon -->
+        <a href="ostoskori.html" class="relative px-3 hover:underline">
+          🛒
+          <span id="cart-count" class="absolute -top-1 -right-2 bg-red-600 text-white text-xs rounded-full px-1">0</span>
+        </a>
       </nav>
     </div>
   </header>
@@ -115,6 +120,16 @@
       © 2025 MOTOFI. Kaikki oikeudet pidätetään.
     </div>
   </footer>
+
+  <!-- 🧠 Cart Count Script -->
+  <script>
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cart-count').textContent = count;
+    }
+    updateCartCount();
+  </script>
 
 </body>
 </html>
