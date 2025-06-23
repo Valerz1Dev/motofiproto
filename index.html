@@ -6,7 +6,11 @@
   <title>MOTOFI – Mopojen viritysosat</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="font-sans antialiased text-gray-800">
+<body class="relative font-sans antialiased text-gray-800">
+
+  <!-- Background overlay -->
+  <div class="absolute inset-0 bg-[url('https://i.imgur.com/YqPK0m9.jpg')] bg-cover bg-center bg-fixed -z-10 opacity-30"></div>
+  <div class="absolute inset-0 backdrop-blur-sm bg-white/60 -z-10"></div>
 
   <!-- Header -->
   <header class="bg-black text-white p-4">
@@ -21,7 +25,7 @@
   </header>
 
   <!-- Hero -->
-  <section class="bg-gray-100 py-20 text-center">
+  <section class="py-20 text-center">
     <h2 class="text-4xl font-extrabold mb-4">Tervetuloa MOTOFI:lle</h2>
     <p class="max-w-xl mx-auto mb-8">
       Laadukkaat mopojen viritysosat — suoraan Suomesta. Tee mopostasi tehokas!
@@ -36,7 +40,7 @@
     <h3 class="text-3xl font-bold mb-8 text-center">Suositut osat</h3>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
-      <div class="border rounded-lg overflow-hidden">
+      <div class="border rounded-lg overflow-hidden bg-white bg-opacity-90">
         <img src="https://via.placeholder.com/300x200" alt="Äänenvaimentimet" class="w-full"/>
         <div class="p-4">
           <h4 class="font-semibold mb-2">Äänenvaimentimet</h4>
@@ -45,7 +49,7 @@
         </div>
       </div>
 
-      <div class="border rounded-lg overflow-hidden">
+      <div class="border rounded-lg overflow-hidden bg-white bg-opacity-90">
         <img src="https://via.placeholder.com/300x200" alt="Variot" class="w-full"/>
         <div class="p-4">
           <h4 class="font-semibold mb-2">Variaattorit</h4>
@@ -54,7 +58,7 @@
         </div>
       </div>
 
-      <div class="border rounded-lg overflow-hidden">
+      <div class="border rounded-lg overflow-hidden bg-white bg-opacity-90">
         <img src="https://via.placeholder.com/300x200" alt="Suuttimet & Kaasuttimet" class="w-full"/>
         <div class="p-4">
           <h4 class="font-semibold mb-2">Suuttimet & Kaasuttimet</h4>
@@ -63,7 +67,7 @@
         </div>
       </div>
 
-      <div class="border rounded-lg overflow-hidden">
+      <div class="border rounded-lg overflow-hidden bg-white bg-opacity-90">
         <img src="https://via.placeholder.com/300x200" alt="Kytkimet" class="w-full"/>
         <div class="p-4">
           <h4 class="font-semibold mb-2">Kytkimet</h4>
@@ -76,11 +80,11 @@
   </section>
 
   <!-- About -->
-  <section id="about" class="bg-gray-50 py-16">
+  <section id="about" class="py-16 bg-white bg-opacity-80">
     <div class="container mx-auto max-w-2xl text-center">
       <h3 class="text-3xl font-bold mb-4">Tietoa MOTOFI:sta</h3>
       <p>
-        MOTOFI sai alkunsa Suomessa ja on omistautunut tarjoamaan korkealaatuisia mopojen viritysosia.
+        MOTOFI sai alkunsa Suomessa ja on omistautunut tarjoamaan tehokkaimpia mopojen viritysosia.
         Olitpa sitten 2-tahtifani tai kaupunkikruisailija, meiltä löydät oikeat osat omaan tyyliisi.
       </p>
     </div>
@@ -90,7 +94,7 @@
   <section id="contact" class="container mx-auto py-16">
     <h3 class="text-3xl font-bold mb-4 text-center">Ota yhteyttä</h3>
     <p class="text-center mb-6">Kysyttävää? Erikoistilauksia? Lähetä meille viesti alla.</p>
-    <form action="mailto:info@motofi.fi" method="post" enctype="text/plain" class="max-w-md mx-auto">
+    <form action="mailto:info@motofi.fi" method="post" enctype="text/plain" class="max-w-md mx-auto bg-white bg-opacity-90 p-6 rounded-lg">
       <label class="block mb-2">Sähköpostisi</label>
       <input type="email" name="email" required
              class="w-full border px-3 py-2 rounded mb-4"/>
