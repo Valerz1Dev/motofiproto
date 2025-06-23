@@ -3,127 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kassa – MOTOFI</title>
+  <title>Checkout – MOTOFI</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="relative font-sans antialiased text-gray-800">
+<body class="bg-gray-100 font-sans text-gray-800">
 
-  <!-- Background -->
-  <div class="absolute inset-0 bg-[url('https://i.imgur.com/Q2ZgCbO.jpeg')] bg-cover bg-center bg-fixed -z-10 opacity-60"></div>
-  <div class="absolute inset-0 backdrop-blur-sm bg-white/60 -z-10"></div>
+  <div class="max-w-3xl mx-auto py-12 px-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">Tarkista tilauksesi</h1>
 
-  <!-- Header -->
-  <header class="bg-black text-white p-4">
-    <div class="container mx-auto flex items-center justify-between">
-      <h1 class="text-2xl font-bold"><a href="index.html">MOTOFI</a></h1>
-      <nav class="flex items-center space-x-4">
-        <a href="index.html#shop" class="hover:underline">Kauppa</a>
-        <a href="ostoskori.html" class="hover:underline relative">
-          🛒
-          <span id="cart-count" class="absolute -top-1 -right-2 bg-red-600 text-white text-xs rounded-full px-1">0</span>
-        </a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Checkout Form -->
-  <section class="container mx-auto py-16">
-    <h2 class="text-3xl font-bold mb-8 text-center">Tilaustiedot</h2>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Customer info -->
-      <form id="checkout-form" class="bg-white bg-opacity-90 p-6 rounded-lg shadow space-y-4">
-        <h3 class="text-xl font-semibold mb-2">Asiakastiedot</h3>
-
-        <input required type="text" placeholder="Nimi" class="w-full border px-3 py-2 rounded" />
-        <input required type="email" placeholder="Sähköposti" class="w-full border px-3 py-2 rounded" />
-        <input required type="text" placeholder="Osoite" class="w-full border px-3 py-2 rounded" />
-        <input required type="text" placeholder="Postinumero" class="w-full border px-3 py-2 rounded" />
-        <input required type="text" placeholder="Postitoimipaikka" class="w-full border px-3 py-2 rounded" />
-        <input type="text" placeholder="Puhelin (valinnainen)" class="w-full border px-3 py-2 rounded" />
-
-        <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 w-full">
-          Tilaa nyt
-        </button>
-      </form>
-
-      <!-- Cart Summary -->
-      <div class="bg-white bg-opacity-90 p-6 rounded-lg shadow">
-        <h3 class="text-xl font-semibold mb-4">Yhteenveto</h3>
-        <div id="checkout-summary" class="space-y-3 mb-6 text-sm text-gray-700"></div>
-
-        <div class="border-t pt-4 text-sm">
-          <p>Välisumma: <span id="subtotal" class="float-right font-semibold">0,00€</span></p>
-          <p>Toimitus: <span id="shipping" class="float-right">6,90€</span></p>
-          <p>ALV 24%: <span id="vat" class="float-right">0,00€</span></p>
-          <p class="text-lg mt-4 font-bold">Yhteensä: <span id="total" class="float-right">0,00€</span></p>
-        </div>
+    <!-- Cart Summary -->
+    <div id="cart-items" class="bg-white shadow rounded p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-4">Ostoskorisi</h2>
+      <ul id="cart-list" class="mb-4 space-y-2"></ul>
+      <div class="border-t pt-4 text-sm">
+        <p><strong>Toimitus:</strong> 5,90€ (Heinolasta minne tahansa Suomeen)</p>
+        <p><strong>Yhteensä:</strong> <span id="total-price">0,00€</span></p>
       </div>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="bg-black text-white py-6 mt-16">
-    <div class="container mx-auto text-center text-sm">
-      © 2025 MOTOFI. Kaikki oikeudet pidätetään.
+    <!-- Customer Info -->
+    <form id="order-form" class="bg-white shadow rounded p-6">
+      <h2 class="text-xl font-semibold mb-4">Yhteystiedot</h2>
+      <label class="block mb-2">Nimi</label>
+      <input name="name" required class="w-full border px-3 py-2 rounded mb-4" />
+
+      <label class="block mb-2">Sähköposti</label>
+      <input name="email" type="email" required class="w-full border px-3 py-2 rounded mb-4" />
+
+      <label class="block mb-2">Toimitusosoite</label>
+      <textarea name="address" required rows="3" class="w-full border px-3 py-2 rounded mb-4"></textarea>
+
+      <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded font-semibold">
+        Tilaa nyt
+      </button>
+    </form>
+
+    <!-- Confirmation -->
+    <div id="confirmation" class="hidden mt-8 bg-green-100 text-green-800 p-4 rounded shadow">
+      <h2 class="font-bold mb-2">Kiitos tilauksestasi!</h2>
+      <p>Voit maksaa MobilePay:llä numeroon <strong>040 123 4567</strong> tai tilisiirtona:</p>
+      <ul class="list-disc ml-6 mt-2 text-sm">
+        <li><strong>Saaja:</strong> MOTOFI</li>
+        <li><strong>Tili:</strong> FI12 3456 7890 1234 56</li>
+        <li><strong>Viesti:</strong> Tilauksesi nimi</li>
+      </ul>
+      <p class="mt-4 text-sm">Lähetämme tuotteet heti kun maksu näkyy. Kiitos kun tuet kotimaista mopokulttuuria!</p>
     </div>
-  </footer>
+  </div>
 
   <script>
-    const SHIPPING_COST = 6.90;
-    const VAT_RATE = 0.24;
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const list = document.getElementById('cart-list');
+    let subtotal = 0;
 
-    function updateCartCount() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const count = cart.reduce((sum, item) => sum + item.qty, 0);
-      document.getElementById('cart-count').textContent = count;
-    }
-
-    function renderSummary() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const summaryDiv = document.getElementById('checkout-summary');
-      const subtotalEl = document.getElementById('subtotal');
-      const vatEl = document.getElementById('vat');
-      const totalEl = document.getElementById('total');
-
-      if (cart.length === 0) {
-        summaryDiv.innerHTML = '<p>Ostoskori on tyhjä.</p>';
-        subtotalEl.textContent = '0,00€';
-        vatEl.textContent = '0,00€';
-        totalEl.textContent = '0,00€';
-        return;
-      }
-
-      let subtotal = 0;
-      summaryDiv.innerHTML = '';
+    if (cart.length === 0) {
+      list.innerHTML = "<li>Ostoskori on tyhjä.</li>";
+    } else {
       cart.forEach(item => {
-        const line = document.createElement('div');
-        line.innerHTML = `
-          ${item.name} × ${item.qty}
-          <span class="float-right">${(item.qty * item.price).toFixed(2)}€</span>
-        `;
-        summaryDiv.appendChild(line);
-        subtotal += item.qty * item.price;
+        const li = document.createElement('li');
+        li.textContent = `${item.name} × ${item.qty} – ${(item.price * item.qty).toFixed(2)}€`;
+        list.appendChild(li);
+        subtotal += item.price * item.qty;
       });
-
-      const vat = subtotal * VAT_RATE;
-      const total = subtotal + SHIPPING_COST;
-
-      subtotalEl.textContent = `${subtotal.toFixed(2)}€`;
-      vatEl.textContent = `${vat.toFixed(2)}€`;
-      totalEl.textContent = `${total.toFixed(2)}€`;
     }
 
-    document.getElementById('checkout-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Kiitos tilauksestasi! (Simuloitu toiminto)');
-      localStorage.removeItem('cart');
-      window.location.href = 'index.html';
-    });
+    const shipping = 5.90;
+    const total = subtotal + shipping;
+    document.getElementById('total-price').textContent = total.toFixed(2) + "€";
 
-    // Init
-    updateCartCount();
-    renderSummary();
+    document.getElementById('order-form').addEventListener('submit', e => {
+      e.preventDefault();
+      document.getElementById('order-form').classList.add('hidden');
+      document.getElementById('confirmation').classList.remove('hidden');
+      localStorage.removeItem('cart');
+    });
   </script>
 
 </body>
