@@ -8,7 +8,7 @@
 </head>
 <body class="relative font-sans antialiased text-gray-800">
 
-  <!-- Background overlay -->
+  <!-- Background -->
   <div class="absolute inset-0 bg-[url('https://i.imgur.com/Q2ZgCbO.jpeg')] bg-cover bg-center bg-fixed -z-10 opacity-60"></div>
   <div class="absolute inset-0 backdrop-blur-sm bg-white/60 -z-10"></div>
 
@@ -40,15 +40,17 @@
     <h3 class="text-3xl font-bold mb-8 text-center">Suositut osat</h3>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
+      <!-- Tuunaus Osat -->
       <div class="border rounded-lg overflow-hidden bg-white bg-opacity-90">
-        <img src="  " alt="Äänenvaimentimet" class="w-full"/>
+        <img src="https://via.placeholder.com/300x200" alt="Tuunaus Osat" class="w-full"/>
         <div class="p-4">
           <h4 class="font-semibold mb-2">Tuunaus osat</h4>
           <p class="text-sm mb-4">Kona kebu tuunausta</p>
-          <a href="#" class="text-blue-600 hover:underline">Katso tuotteet →</a>
+          <a href="tuunaus.html" class="text-blue-600 hover:underline">Katso tuotteet →</a>
         </div>
       </div>
 
+      <!-- Variaattorit -->
       <div class="border rounded-lg overflow-hidden bg-white bg-opacity-90">
         <img src="https://via.placeholder.com/300x200" alt="Variot" class="w-full"/>
         <div class="p-4">
@@ -58,6 +60,7 @@
         </div>
       </div>
 
+      <!-- Kaasuttimet -->
       <div class="border rounded-lg overflow-hidden bg-white bg-opacity-90">
         <img src="https://via.placeholder.com/300x200" alt="Suuttimet & Kaasuttimet" class="w-full"/>
         <div class="p-4">
@@ -67,6 +70,7 @@
         </div>
       </div>
 
+      <!-- Kytkimet -->
       <div class="border rounded-lg overflow-hidden bg-white bg-opacity-90">
         <img src="https://via.placeholder.com/300x200" alt="Kytkimet" class="w-full"/>
         <div class="p-4">
@@ -96,13 +100,10 @@
     <p class="text-center mb-6">Kysyttävää? Erikoistilauksia? Lähetä meille viesti alla.</p>
     <form action="mailto:info@motofi.fi" method="post" enctype="text/plain" class="max-w-md mx-auto bg-white bg-opacity-90 p-6 rounded-lg">
       <label class="block mb-2">Sähköpostisi</label>
-      <input type="email" name="email" required
-             class="w-full border px-3 py-2 rounded mb-4"/>
+      <input type="email" name="email" required class="w-full border px-3 py-2 rounded mb-4"/>
       <label class="block mb-2">Viesti</label>
-      <textarea name="message" rows="4" required
-                class="w-full border px-3 py-2 rounded mb-4"></textarea>
-      <button type="submit"
-              class="w-full bg-black text-white py-2 rounded hover:bg-gray-800">
+      <textarea name="message" rows="4" required class="w-full border px-3 py-2 rounded mb-4"></textarea>
+      <button type="submit" class="w-full bg-black text-white py-2 rounded hover:bg-gray-800">
         Lähetä viesti
       </button>
     </form>
