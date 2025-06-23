@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ostoskori – MOTOFI</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -15,22 +16,29 @@
   <header class="bg-black text-white p-4">
     <div class="container mx-auto flex items-center justify-between">
       <h1 class="text-2xl font-bold"><a href="index.html">MOTOFI</a></h1>
-      <nav>
-        <a href="index.html#shop" class="px-3 hover:underline">Kauppa</a>
-        <a href="index.html#about" class="px-3 hover:underline">Tietoa</a>
-        <a href="index.html#contact" class="px-3 hover:underline">Yhteystiedot</a>
-        <a href="ostoskori.html" class="relative px-3 hover:underline">
-          🛒 <span id="cart-count" class="absolute -top-1 -right-2 bg-red-600 text-white text-xs rounded-full px-1">0</span>
+      <nav class="flex items-center space-x-4">
+        <a href="index.html#shop" class="hover:underline">Kauppa</a>
+        <a href="index.html#about" class="hover:underline">Tietoa</a>
+        <a href="index.html#contact" class="hover:underline">Yhteystiedot</a>
+        <a href="ostoskori.html" class="relative hover:underline">
+          🛒
+          <span id="cart-count" class="absolute -top-1 -right-2 bg-red-600 text-white text-xs rounded-full px-1">0</span>
         </a>
       </nav>
     </div>
   </header>
 
   <!-- Cart Section -->
-  <section class="container mx-auto py-12">
+  <section class="container mx-auto py-16">
     <h2 class="text-3xl font-bold mb-8 text-center">Ostoskori</h2>
-    <div id="cart-items" class="bg-white bg-opacity-90 p-6 rounded-lg shadow max-w-3xl mx-auto">
-      <!-- Cart will be injected here -->
+    <div id="cart-items" class="space-y-6"></div>
+
+    <!-- Summary -->
+    <div class="mt-10 text-right">
+      <p class="text-xl font-semibold mb-4">Yhteensä: <span id="total-price">0,00€</span></p>
+      <a href="checkout.html" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700">
+        Siirry kassalle
+      </a>
     </div>
   </section>
 
@@ -41,7 +49,7 @@
     </div>
   </footer>
 
-  <!-- Cart Logic -->
+  <!-- Script -->
   <script>
     function updateCartCount() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -50,37 +58,45 @@
     }
 
     function renderCart() {
-      const container = document.getElementById('cart-items');
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartItemsDiv = document.getElementById('cart-items');
+      const totalPriceEl = document.getElementById('total-price');
+      cartItemsDiv.innerHTML = '';
+
+      let total = 0;
 
       if (cart.length === 0) {
-        container.innerHTML = "<p class='text-center'>Ostoskori on tyhjä.</p>";
+        cartItemsDiv.innerHTML = '<p class="text-center text-gray-700">Ostoskori on tyhjä.</p>';
+        totalPriceEl.textContent = '0,00€';
         return;
       }
 
-      let html = '<ul class="divide-y">';
-      let total = 0;
-
-      cart.forEach((item, i) => {
-        const itemTotal = item.qty * item.price;
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.qty;
         total += itemTotal;
 
-        html += `
-          <li class="flex justify-between items-center py-4">
-            <div>
-              <strong>${item.name}</strong><br/>
-              Määrä: ${item.qty} × ${item.price.toFixed(2)}€
-            </div>
-            <div class="text-right">
-              <span class="block font-bold">${itemTotal.toFixed(2)}€</span>
-              <button onclick="removeItem(${i})" class="text-red-600 hover:underline text-sm mt-1">Poista</button>
-            </div>
-          </li>
+        const div = document.createElement('div');
+        div.className = 'bg-white bg-opacity-90 p-4 rounded-lg shadow flex justify-between items-center';
+
+        div.innerHTML = `
+          <div>
+            <h3 class="text-lg font-semibold">${item.name}</h3>
+            <p class="text-sm text-gray-700">Hinta: ${item.price.toFixed(2)}€</p>
+            <p class="text-sm text-gray-700">Määrä: 
+              <button class="px-2 text-red-600 font-bold" onclick="changeQty(${index}, -1)">−</button>
+              ${item.qty}
+              <button class="px-2 text-green-600 font-bold" onclick="changeQty(${index}, 1)">+</button>
+            </p>
+            <p class="text-sm mt-2 text-gray-800">Yhteensä: ${(itemTotal).toFixed(2)}€</p>
+          </div>
+          <button onclick="removeItem(${index})" class="text-red-500 hover:underline">Poista</button>
         `;
+
+        cartItemsDiv.appendChild(div);
       });
 
-      html += `</ul><div class="text-right mt-4 font-bold text-xl">Yhteensä: ${total.toFixed(2)}€</div>`;
-      container.innerHTML = html;
+      totalPriceEl.textContent = `${total.toFixed(2)}€`;
+      updateCartCount();
     }
 
     function removeItem(index) {
@@ -88,11 +104,22 @@
       cart.splice(index, 1);
       localStorage.setItem('cart', JSON.stringify(cart));
       renderCart();
-      updateCartCount();
     }
 
+    function changeQty(index, delta) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart[index].qty += delta;
+      if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    // Init
     updateCartCount();
     renderCart();
   </script>
+
 </body>
 </html>
