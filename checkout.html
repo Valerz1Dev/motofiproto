@@ -6,51 +6,67 @@
   <title>Checkout – MOTOFI</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 font-sans text-gray-800">
+<body class="bg-gray-100 text-gray-900 font-sans">
 
-  <div class="max-w-3xl mx-auto py-12 px-4">
-    <h1 class="text-3xl font-bold mb-6 text-center">Tarkista tilauksesi</h1>
+  <!-- Header -->
+  <header class="bg-black text-white p-4">
+    <div class="container mx-auto flex items-center justify-between">
+      <h1 class="text-2xl font-bold"><a href="index.html">MOTOFI</a></h1>
+      <nav>
+        <a href="index.html#shop" class="px-3 hover:underline">Kauppa</a>
+        <a href="index.html#about" class="px-3 hover:underline">Tietoa</a>
+        <a href="index.html#contact" class="px-3 hover:underline">Yhteystiedot</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Cart Summary -->
-    <div id="cart-items" class="bg-white shadow rounded p-6 mb-8">
-      <h2 class="text-xl font-semibold mb-4">Ostoskorisi</h2>
-      <ul id="cart-list" class="mb-4 space-y-2"></ul>
-      <div class="border-t pt-4 text-sm">
-        <p><strong>Toimitus:</strong> 5,90€ (Heinolasta minne tahansa Suomeen)</p>
-        <p><strong>Yhteensä:</strong> <span id="total-price">0,00€</span></p>
+  <!-- Checkout Section -->
+  <main class="container mx-auto py-12 px-4">
+    <h2 class="text-3xl font-bold mb-6 text-center">Tarkista ja viimeistele tilaus</h2>
+
+    <div class="grid md:grid-cols-2 gap-8">
+
+      <!-- Order Summary -->
+      <div class="bg-white shadow rounded p-6">
+        <h3 class="text-xl font-semibold mb-4">Tilauksesi</h3>
+        <ul id="cart-list" class="mb-4 list-disc list-inside text-sm text-gray-700"></ul>
+        <p class="text-sm mb-1">Toimitus (Heinolasta Suomeen): <strong>5,90€</strong></p>
+        <p class="text-lg font-semibold">Yhteensä: <span id="total-price">0.00€</span></p>
       </div>
+
+      <!-- Checkout Form -->
+      <form action="https://formspree.io/f/yourFormID" method="POST" class="bg-white shadow rounded p-6">
+        <h2 class="text-xl font-semibold mb-4">Yhteystiedot</h2>
+
+        <input type="hidden" name="_subject" value="Uusi tilaus MOTOFI-verkkokaupasta">
+        <input type="hidden" name="order" id="order-data">
+
+        <label class="block mb-2 font-medium">Nimi</label>
+        <input name="name" required class="w-full border px-3 py-2 rounded mb-4" />
+
+        <label class="block mb-2 font-medium">Sähköposti</label>
+        <input name="email" type="email" required class="w-full border px-3 py-2 rounded mb-4" />
+
+        <label class="block mb-2 font-medium">Toimitusosoite</label>
+        <textarea name="address" required rows="3" class="w-full border px-3 py-2 rounded mb-4"></textarea>
+
+        <p class="text-sm text-gray-700 mb-4">Maksa tilaus summan mukaan MobilePaylla tai pankkisiirrolla. Tilaus käsitellään maksun jälkeen. Maksutiedot saat sähköpostiin.</p>
+
+        <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded font-semibold">
+          Tilaa nyt
+        </button>
+      </form>
     </div>
+  </main>
 
-    <!-- Customer Info -->
-    <form id="order-form" class="bg-white shadow rounded p-6">
-      <h2 class="text-xl font-semibold mb-4">Yhteystiedot</h2>
-      <label class="block mb-2">Nimi</label>
-      <input name="name" required class="w-full border px-3 py-2 rounded mb-4" />
-
-      <label class="block mb-2">Sähköposti</label>
-      <input name="email" type="email" required class="w-full border px-3 py-2 rounded mb-4" />
-
-      <label class="block mb-2">Toimitusosoite</label>
-      <textarea name="address" required rows="3" class="w-full border px-3 py-2 rounded mb-4"></textarea>
-
-      <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded font-semibold">
-        Tilaa nyt
-      </button>
-    </form>
-
-    <!-- Confirmation -->
-    <div id="confirmation" class="hidden mt-8 bg-green-100 text-green-800 p-4 rounded shadow">
-      <h2 class="font-bold mb-2">Kiitos tilauksestasi!</h2>
-      <p>Voit maksaa MobilePay:llä numeroon <strong>040 123 4567</strong> tai tilisiirtona:</p>
-      <ul class="list-disc ml-6 mt-2 text-sm">
-        <li><strong>Saaja:</strong> MOTOFI</li>
-        <li><strong>Tili:</strong> FI12 3456 7890 1234 56</li>
-        <li><strong>Viesti:</strong> Tilauksesi nimi</li>
-      </ul>
-      <p class="mt-4 text-sm">Lähetämme tuotteet heti kun maksu näkyy. Kiitos kun tuet kotimaista mopokulttuuria!</p>
+  <!-- Footer -->
+  <footer class="bg-black text-white py-6 mt-16">
+    <div class="container mx-auto text-center text-sm">
+      © 2025 MOTOFI. Kaikki oikeudet pidätetään.
     </div>
-  </div>
+  </footer>
 
+  <!-- Cart Logic -->
   <script>
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const list = document.getElementById('cart-list');
@@ -71,10 +87,11 @@
     const total = subtotal + shipping;
     document.getElementById('total-price').textContent = total.toFixed(2) + "€";
 
-    document.getElementById('order-form').addEventListener('submit', e => {
-      e.preventDefault();
-      document.getElementById('order-form').classList.add('hidden');
-      document.getElementById('confirmation').classList.remove('hidden');
+    // Inject order summary into hidden field
+    const form = document.querySelector('form');
+    form.addEventListener('submit', () => {
+      const summary = cart.map(i => `${i.name} × ${i.qty} = ${(i.price * i.qty).toFixed(2)}€`).join('\n');
+      document.getElementById('order-data').value = `${summary}\nToimitus: ${shipping.toFixed(2)}€\nYhteensä: ${total.toFixed(2)}€`;
       localStorage.removeItem('cart');
     });
   </script>
