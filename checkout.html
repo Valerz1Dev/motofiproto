@@ -6,6 +6,11 @@
   <title>Tilaus – MOTOFI</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    function generateOrderCode() {
+      const now = new Date();
+      return 'MTF-' + now.getTime().toString().slice(-6); // Example: MTF-431283
+    }
+
     function loadCart() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       let summary = "";
@@ -20,17 +25,19 @@
       const shipping = 6.90;
       const tax = (total * 0.24).toFixed(2);
       const grandTotal = (total + shipping).toFixed(2);
+      const orderCode = generateOrderCode();
 
       document.getElementById('orderSummary').innerText = summary.trim();
       document.getElementById('subTotal').innerText = total.toFixed(2) + '€';
       document.getElementById('shipping').innerText = shipping.toFixed(2) + '€';
       document.getElementById('tax').innerText = tax + '€';
       document.getElementById('grandTotal').innerText = grandTotal + '€';
+      document.getElementById('orderCode').innerText = orderCode;
 
-      // Fill hidden field for email
       document.getElementById('hiddenOrder').value =
-        summary + `\n\nVälisumma: ${total.toFixed(2)}€\nToimitus: ${shipping.toFixed(2)}€\nALV 24%: ${tax}€\nYhteensä: ${grandTotal}€`;
+        summary + `\n\nVälisumma: ${total.toFixed(2)}€\nToimitus: ${shipping.toFixed(2)}€\nALV 24%: ${tax}€\nYhteensä: ${grandTotal}€\nTilauskoodi: ${orderCode}`;
     }
+
     window.onload = loadCart;
   </script>
 </head>
@@ -63,10 +70,6 @@
 
         <textarea id="hiddenOrder" name="Tilaus" class="hidden"></textarea>
 
-        <p class="text-sm text-gray-600 mt-4">
-          💡 Tilaus lähetetään sähköpostiisi. Maksu suoritetaan manuaalisesti tilisiirtona ennen toimitusta.
-        </p>
-
         <button type="submit" class="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 w-full">
           Tilaa nyt
         </button>
@@ -77,7 +80,7 @@
         <h3 class="text-lg font-semibold mb-2">Yhteenveto</h3>
         <pre id="orderSummary" class="bg-gray-50 p-4 border rounded mb-4 whitespace-pre-wrap text-sm"></pre>
 
-        <div class="text-sm space-y-1">
+        <div class="text-sm space-y-1 mb-6">
           <div class="flex justify-between">
             <span>Välisumma:</span><span id="subTotal">–</span>
           </div>
@@ -91,6 +94,19 @@
             <span>Yhteensä:</span><span id="grandTotal">–</span>
           </div>
         </div>
+
+        <div class="bg-yellow-100 border border-yellow-300 text-yellow-900 p-4 rounded text-sm">
+          <h4 class="font-semibold mb-2">💳 Maksuohjeet</h4>
+          <p>Suorita maksu tilille ennen lähettämistä:</p>
+          <ul class="mt-2 space-y-1">
+            <li><strong>Saaja:</strong> MOTOFI</li>
+            <li><strong>IBAN:</strong> FI00 1234 5600 7890 12</li> <!-- Replace with your real IBAN -->
+            <li><strong>Viesti / Viitenumero:</strong> <span id="orderCode" class="font-mono text-red-600"></span></li>
+            <li><strong>Summa:</strong> <span id="grandTotal">–</span></li>
+          </ul>
+          <p class="mt-2">📦 Tilauksesi pakataan, kun maksu on vastaanotettu.</p>
+        </div>
+
       </div>
     </div>
   </main>
