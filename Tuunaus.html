@@ -60,16 +60,22 @@
 
       <!-- Existing products here... -->
 
-      <!-- Product 1 -->
-      <div class="bg-white bg-opacity-90 p-4 rounded-lg shadow">
-        <img src="https://i.imgur.com/9NpT689.png" alt="Bensaletku" class="w-full mb-4 rounded"/>
-        <h3 class="text-xl font-semibold mb-2">Bensaletku - Sininen (sininen)</h3>
-        <p class="text-sm mb-4">Sininen bensaletku pitämään bensan reitillään</p>
-        <span class="block font-bold text-lg mb-4">2,99€</span>
-        <button onclick="addToCart('Bensaletku - Sininen (sininen)', 2.99)" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-          Lisää ostoskoriin
-        </button>
-      </div>
+    <!-- Product 1 -->
+<div class="bg-white bg-opacity-90 p-4 rounded-lg shadow">
+  <img src="https://i.imgur.com/9NpT689.png" alt="Bensaletku" class="w-full mb-4 rounded"/>
+  <h3 class="text-xl font-semibold mb-2">Bensaletku - Sininen (sininen)</h3>
+  <p class="text-sm mb-4">
+    Sininen bensaletku pitämään bensan reitillään<br>
+    <span class="inline-block mt-1 px-2 py-1 bg-red-500 text-white font-bold rounded">
+      Tilapäisesti loppu!
+    </span>
+  </p>
+  <span class="block font-bold text-lg mb-4">2,99€</span>
+  <button disabled class="bg-gray-400 cursor-not-allowed text-white px-4 py-2 rounded" title="Tuote loppu varastosta">
+    Lisää ostoskoriin
+  </button>
+</div>
+
 
       <!-- Product 2 -->
       <div class="bg-white bg-opacity-90 p-4 rounded-lg shadow">
